@@ -1,122 +1,136 @@
 import time
 import math
+import operator
+from operator import itemgetter
 
 
-def temp_converter(temperature,temp_given_in='c'):
-    if temp_given_in == 'c' and temperature >= -273.15:
-        temp_in_f = temperature * 9 / 5 + 32
-        temp_in_k = temperature + 273.15
-        print(f'For given temperature in {temperature:.3f} C is equivelent to  {temp_in_f:.3f} F or {temp_in_k:.3f} K ')
-        temp1 = temp_in_f
-        temp1_b = "F"
-        temp2 = temp_in_k
-        temp2_b = "K"
-    elif temp_given_in == 'f' and temperature > -459.67:
-        temp_in_c = (temperature - 32) / 1.8
-        temp_in_k = (temperature - 32) / 1.8 + 273.15
-        print(f'For given temperature in {temperature:.3f} F is equivelent to  {temp_in_c:.3f} C or {temp_in_k:.3f} K ')
-        temp1 = temp_in_c
-        temp1_b = "C"
-        temp2 = temp_in_k
-        temp2_b = "K"
-    elif temp_given_in == 'k' and temperature >= 0:
-        temp_in_c = temperature - 273.15
-        temp_in_f = (temperature - 273.15) * 9 / 5 + 32
-        print(f'For given temperature in {temperature:.3f} K is equivelent to  {temp_in_c:.3f} C or {temp_in_f:.3f} F ')
-        temp1 = temp_in_c
-        temp1_b = "C"
-        temp2 = temp_in_f
-        temp2_b = "F"
+def merge(list1, list2):
+    merged_list = [(list1[i], list2[i]) for i in range(0, len(list1))]
+    return merged_list
+
+
+
+
+
+
+def card_deck1(n: 'number of Decks' = 1) -> 'List of Cards':
+    """
+    This Program takes in number of deck and provides list of cards in it.
+    """
+    Card_deck = []
+    suits = ['spades', 'clubs', 'hearts', 'diamonds']
+    vals = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace']
+    if n >= 1 and isinstance(n, int):
+        for n in range(n):
+            for b in suits:
+                for a in vals:
+                    Card_deck.append((a, b))
     else:
-        lis = ['c', 'f', 'k']
-        if temp_given_in not in lis:
-            print("Check input temperature base")
-            temp1 = temp1_b = temp2 = temp2_b = None
-        elif temp_given_in == 'c' and temperature < -273.15:
-            print("For Celius Temperature cannot be less than -273.15")
-            temp1 = temp1_b = temp2 = temp2_b = None
-        elif temp_given_in == 'f' and temperature > -459.67:
-            print("For fahrenheit Temperature cannot be less than -459.67")
-            temp1 = temp1_b = temp2 = temp2_b = None
-        else:
-            print("For Kelvin Temperature cannot be less than 0")
-            temp1 = temp1_b = temp2 = temp2_b = None
-    return temp1, temp1_b, temp2, temp2_b
+        print("Number of decks needs to be  +ve integer")
+    Card_deck.sort(key=lambda x: x[1])
+    return Card_deck
 
 
-def polygon_area(side_length,sides=3):
-    if sides>= 3 and sides <= 6 and isinstance(sides, int) and side_length >= 0:
-        b = math.tan(math.pi / sides)
-        polygon_area = (side_length ** 2) * sides / (4 * b)
-        print(f'Area of {sides} sided Polygon is {polygon_area:.2f}')
-    elif not isinstance(sides, int):
-        print("Number of sides should be a integer between 3 to 6")
-        polygon_area = None
-    elif side_length < 0:
-        print("Length of side cannot be zero")
-        polygon_area = None
+
+
+
+
+def card_sorter_and_numbered(hand:'unsorted hand with card number')-> 'Sorted card number with structured number':
+    """ This Program sorts the cards based on suit and vals and returns with number in place of vals"""
+    hand_vals = list(map(itemgetter(0), hand))
+    hand_suit = list(map(itemgetter(1), hand))
+    hand_vals1 = []
+    for a in hand_vals:
+        hand_vals1.append(determineValue(a))
+    #print(hand_vals1)
+    hand_r=merge(hand_vals1,hand_suit)
+    #print(hand_r)
+    hand_r=sorted(hand_r, key=lambda x: (x[1], -x[0]))
+    return hand_r,hand_vals1,hand_suit
+
+
+def determineValue(y:"Face Number of Card")->"Program Number of Card":
+    val_number_dic = {'2': 12, '3': 13, '4': 14, '5': 16, '6': 16, '7': 17, '8': 18, '9': 19, '10': 20, 'jack': 21, 'queen': 22,
+                      'king': 23, 'ace': 24}
+    z = val_number_dic.get(y)
+    return z
+
+
+
+
+
+Royal_flush_sum_dict = {5: 110, 4: 90, 3: 69}
+
+
+def score_calculator(hand: 'input is list of cards') -> 'The score of given hand':
+    "This Function Calculated the score to be used for selecting the winner in Poker"
+    Score = []
+    cards_in_hand=len(hand)
+    sorted_cards,hand_fval,hand_suit=card_sorter_and_numbered(hand)
+    hand_suit_uni = list(set(hand_suit))
+    hand_suit_uni_nu = len(hand_suit_uni)
+    hand_fvals_uni = list(set(hand_fval))
+    hand_fvals_uni_nu = len(hand_fvals_uni)
+    #"Royal Flush"
+    if hand_suit_uni_nu == 1 and sum(hand_fval) == Royal_flush_sum_dict.get(cards_in_hand):
+        score=[10000,24,23,22,21,20]
+    # Straight flush
+    elif hand_suit_uni_nu == 1 and sum(hand_fval) == Royal_flush_sum_dict.get(cards_in_hand):
+        score=[9000]
+
+
+
     else:
-        print("Number of sides cannot be less than 3 or more than 6")
-        polygon_area = None
-    return polygon_area
+        score=[100]
+
+    return score
+
+deck = [('2', 'clubs'), ('3', 'clubs'), ('4', 'clubs'), ('5', 'clubs'), ('6', 'clubs'), ('7', 'clubs'),
+        ('8', 'clubs'), ('9', 'clubs'), ('10', 'clubs'), ('jack', 'clubs'), ('queen', 'clubs'), ('king', 'clubs'),
+        ('ace', 'clubs'), ('2', 'diamonds'), ('3', 'diamonds'), ('4', 'diamonds'), ('5', 'diamonds'),
+        ('6', 'diamonds'), ('7', 'diamonds'), ('8', 'diamonds'), ('9', 'diamonds'), ('10', 'diamonds'),
+        ('jack', 'diamonds'), ('queen', 'diamonds'), ('king', 'diamonds'), ('ace', 'diamonds'), ('2', 'hearts'),
+        ('3', 'hearts'), ('4', 'hearts'), ('5', 'hearts'), ('6', 'hearts'), ('7', 'hearts'), ('8', 'hearts'),
+        ('9', 'hearts'), ('10', 'hearts'), ('jack', 'hearts'), ('queen', 'hearts'), ('king', 'hearts'),
+        ('ace', 'hearts'), ('2', 'spades'), ('3', 'spades'), ('4', 'spades'), ('5', 'spades'), ('6', 'spades'),
+        ('7', 'spades'), ('8', 'spades'), ('9', 'spades'), ('10', 'spades'), ('jack', 'spades'),
+        ('queen', 'spades'), ('king', 'spades'), ('ace', 'spades')]
 
 
-def squared_power_list(number,start=0, end=5):
-    squared_power_list = []
-    if start >= 0 and start <= end:
-        for i in range(start, (end + 1)):
-            squared_power_list.append(number ** i)
-        print(squared_power_list)
+def game_card_poker(hand1: "List of Cards with Player 1",
+              hand2: "List of Cards with Player 1") -> 'Returns the number of  player who won':
+    """
+    This Determines the winner of Card game based on given set of cards
+    Its calls another function to calculate score of each hand and then compares.
+    """
+    winner = 'Its a tie both players share the pot'
+    check1 = all(item in deck for item in hand2)
+    check2 = all(item in deck for item in hand2)
+    if len(hand1) == len(hand2) and check1 is True and check2 is True:
+        score1 = score_calculator(hand1)
+        score2 = score_calculator(hand2)
+        for a in range(len(hand1) + 1):
+            if score1[a] > score2[a]:
+                winner = 'Player 1'
+                break
+            elif score1[a] < score2[a]:
+                winner = 'Player 2'
+                break
+        print(score1)
+        print(score2)
+    elif check1 is False and check2 is False:
+        winner = 'Its a tie as Both Player should have legitimate cards'
+    elif check1 is False:
+        winner = 'Its a tie as Player1 should have legitimate cards'
+    elif check2 is False:
+        winner = 'Its a tie as Player2 should have legitimate cards'
     else:
-        if start < 0:
-            print("Start number cannot be less than 0")
-        else:
-            print("Start number cannot be less end Number")
-    return squared_power_list
+        winner = 'Its a tie Both Players should have same amount of cards'
+    return winner
 
 
-def speed_converter(speed,dist='km',time='min'):
-    table_dist = {"km": 1, 'm': 1000, "ft": 3280.84, "yrd": 1093.61, "mile": 0.621371}
-    time_dist = {"ms": 1 / (3.6 * 10 ** 6), "s": 1 / 3600, "min": 1 / 60, "hr": 1, "day": 24}
-    if speed >= 0 and dist in table_dist and time in time_dist:
-        d_value = table_dist.get(dist)
-        t_value = time_dist.get(time)
-        speed_converted = speed * d_value * t_value
-        print(f'Speed in {speed:.3e} in kmph is equal to {speed_converted:.3e} in {dist}/{time}')
-    elif dist not in table_dist and time not in time_dist:
-        speed_converted = None
-        print('Provide time(ms,s,min,hr,day) and distnace(km,m,mile,yrd or ft) in proper units  ')
-    elif dist not in table_dist:
-        speed_converted = None
-        print('Provide proper distance  units')
-    elif time not in time_dist:
-        speed_converted = None
-        print('Provide proper  time  units ')
-    else:
-        speed_converted = None
-        print('speed cannot be negative')
-    return speed_converted
+hand1 = [('ace', 'spades'), ('king', 'spades'), ('queen', 'spades'), ('jack', 'spades'), ('10', 'spades')]
+#hand2 = [('ace', 'spades'), ('king', 'clubs'), ('queen', 'spades'), ('jack', 'spades'), ('10', 'spades')]
 
-
-def time_it(fn, *args, repetitions=1, **kwargs):
-    time_start = time.perf_counter()
-    if callable(fn) and repetitions>0 and isinstance(repetitions,int):
-        for i in range(repetitions):
-            fn(*args,**kwargs)
-        time_end = time.perf_counter()
-        delta = time_end - time_start
-        avg_time = delta / repetitions
-    elif not callable(fn):
-        print(' Function should be callable')
-        time_end = time.perf_counter()
-        delta = time_end - time_start
-        avg_time = delta / repetitions
-    else:
-        print('Repetitions must be integer and  cannot be zero or less')
-        time_end = time.perf_counter()
-        delta = time_end - time_start
-        avg_time = delta
-    print(f'avg time taken={avg_time:.10f}')
-    return avg_time
-
-
+score1=score_calculator(hand1)
+print(score1)

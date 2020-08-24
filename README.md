@@ -1,6 +1,6 @@
 # Readme File for Assignment for Session 5 - Functional Parameters
 ### Created by Sriram Iyengar
-## Session 5 - Functional Parameters
+## Session 6 - Functional Parameters
 - Arguments & Parameters; Positional and Keyword Arguments
 - Unpacking
 - Extending Unpacking
