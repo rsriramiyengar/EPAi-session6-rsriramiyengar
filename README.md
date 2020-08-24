@@ -1,147 +1,183 @@
-# Readme File for Assignment for Session 5 - Functional Parameters
+# Readme File for Assignment for Session 6 - First Class Functions Part I
 ### Created by Sriram Iyengar
-## Session 6 - Functional Parameters
-- Arguments & Parameters; Positional and Keyword Arguments
-- Unpacking
-- Extending Unpacking
-- *args
-- Keyword arguments
-- **kwargs
+## Session 6 - First Class Functions Part I
+- Default Values
+- Docstrings & Annotation
+- Lambda Function
+- Functional introspection
+- Callable
+- Maps,filter & zip
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## time_it function
-- This function runs of following function for user given repetition and  returns avg_time run time per repetitions
--  Repetitions needs to be non zero positive integer.
-### time_it(print, 1, 2, 3, sep='-', end= ' ***\n', repetitons=5)
+Based on above Session we are tasked with develop  code to check special kind of poker with tow give hand
+The object achieved in  this assignment as follow
+- Function to create deck of cards using regular function
+- Function to create deck of cards using map,zip and lambda function
+- Function find winner of special poker game based on given set of cards
+Where the rank is as follows the given value in front is arbitrary just for convenience
+Royal Flush     =10000 (for set of 3,4 & 5 cards)
+Straight Flush  = 9000 (for set of 3,4 & 5cards)
+Four of kind    = 8000 (for set of 4 & 5 cards)
+Full House      = 7000 (for set of 5 cards)
+Flush           = 6000 (for set of 3,4&5 cards)
+Straight        = 5000 (for set of 3,4&5 cards)
+Three of kind   = 4000 (for set of 3,4&5 cards)
+Two pair        = 1000 (for set of 3,4&5 cards)   
+High card       = 1000 (for set of 3,4&5 cards)
+- to create 35(min 20+) test cases to check our code.
+- Last but not least create this readme file explaning the different functions
+ 
+The given
+  
+## card_deck1_regular
+- This function takes in number of deck required and returns cards in deck
 
-### print_f
-- This function prints the user given data for user provided  repetition number a user given input on screen with user given seperator and end variables.
-- sep denotes the seperator to be used
-- end denotes the end character  to be used
-- repetitions defines the number of times it needs to be computed and printed.
+## card_deck1_special
+- This function takes in number of deck required and returns cards in deck this function is created with lambda map and zip function. 
 
-### time_it(squared_power_list, 2, start=0, end=5, repetitions=5) #2 is the number you are calculating power of, [1, 2, 4, 8, 16, 32]
-### squared_power_list
-- This function computes and prints list of power of number for user input.
-- Where 'start' specifies the start of power of number. Note start number cannot be less than zero and end number.
-- Where 'end' specifies the end  of power of number.
-- The step taken is one.
-- repetitions defines the number of times it needs to be computed and printed. 
+### def game_card_poker_winner(hand1: "List of Cards with Player 1",hand2: "List of Cards with Player 1") -> 'Returns the number of  player who won':
+    """
+    This Determines the winner of Card game based on given set of cards
+    Its calls another function to calculate score of each hand and then compares.
+    Note: The input need to be properly order to check Tie Case.
+    """
+- This function when given 2 set of cards returns the Winner as given below   
+- Player 1 if player 1 has a better hand
+- Player 2 if player 2 has a better hand
+- 'Its a tie both players share the pot' - if both have similar hands
 
-### time_it(polygon_area, 15, sides = 3, repetitons=10) # 15 is the side length. This polygon supports area calculations of upto a hexagon
-### polygon_area
-- This function computes and prints area of polygon for user input.
-- '15' is the location where we define the +ve length of side.
-- 'side' this defines the number(int) of sides the polygon which needs to be between 3 and 6.
-- repetitions defines the number of times it needs to be computed and printed. 
+### def score_calculator(hand: 'input is list of cards') -> 'The score of given hand':
+    "This Function Calculates the score of given hand for selecting the winner in Poker"
 
-## time_it(temp_converter, 100, temp_given_in = 'f', repetitons=100) # 100 is the base temperature given to be converted
-### temp_converter
-- This function computes and prints  Temperature from  user base units to others.
-- 'temp_given_in' is Input unit of temperature which can be  in 'k','c' or 'F') 
-- '100' is the user defined temperature in user defined units. 
-- repetitions defines the number of times it needs to be computed and printed.
+*** Test Function
+### The below given test checks the game_card_winner is selected properly
+def test_function_poker_game():
+    assert game_card_poker_winner(p_royal_flush_5,p_straight_flush_5) =='Player 1', "Test01-High Hand Cannot lose to straigh flush"
+    assert game_card_poker_winner(p_poker_flush_4,p_four_of_kind_4) == 'Player 2', "Test02-Four_of_kind Cannot lose to flush"
+    assert game_card_poker_winner(p_poker_flush_5,p_high_card_5) == 'Player 1', "Test03-Flush Cannot lose to high card"
+    assert game_card_poker_winner(p_three_of_kind_4,p_three_of_kind_4) == 'Its a tie both players share the pot', "Test04-Same set of cards must be tie"
+    assert game_card_poker_winner(p_straight_flush_3,p_high_card_3) == 'Player 1', "Test05-Straigh Flush cannot lose to high card"
+    assert game_card_poker_winner(p_three_of_kind_5,p_two_Pair_5) == 'Player 1', "Test06-Three of Kind cannot lose to Two Pair"
+    assert game_card_poker_winner(p_high_card_5,p_full_house_5) == 'Player 2', "Test07-Full house cannot lose to High Card"
+    assert game_card_poker_winner(p_two_Pair_4,p_four_of_kind_4 ) == 'Player 2', "Test08-Four of kind cannot lose to Two Pair"
+    assert game_card_poker_winner(p_three_of_kind_4, p_high_card_4) == 'Player 1', "Test09-Three of kind cannot lose to High card"
+    assert game_card_poker_winner(p_two_Pair_4 , p_royal_flush_4) == 'Player 2', "Test10-Royal cannot lose to two pair"
+    assert game_card_poker_winner(p_two_Pair_4, p_royal_flush_4) == 'Player 2', "Test11-Royal cannot lose to two pair"
+    assert game_card_poker_winner(p_two_Pair_5, p_one_Pair_5) == 'Player 1', "Test12-Two pair cannot lose to one pair"
+    assert game_card_poker_winner(p_poker_flush_5, p_straight_flush_5) == 'Player 2', "Test13-Straight flush cannot lose to flush"
+    assert game_card_poker_winner(p_royal_flush_3 ,p_straight_3) == 'Player 1', "Test14-Royal flush cannot lose to straigh"
+    assert game_card_poker_winner(p_three_of_kind_4, p_four_of_kind_4) == 'Player 2', "Test15-Four of Kind cannot lose to Three of Kind"
+    assert game_card_poker_winner(p_one_Pair_3,p_high_card_3) == 'Player 1', "Test16-One Pair cannot lose to High Card"
+    assert game_card_poker_winner(p_one_Pair_4,p_two_Pair_4) == 'Player 2', "Test17-Two Pair cannot lose to One Pair"
+    assert game_card_poker_winner(p_straight_flush_5,p_one_Pair_5) == 'Player 1', "Test18-Straigh flush cannot lose to One Pair"
+    assert game_card_poker_winner(p_high_card_3,p_poker_flush_3) == 'Player 2', "Test19-Flush cannot lose to High card"
+    assert game_card_poker_winner(p_four_of_kind_4, p_straight_4) == 'Player 1', "Test20- straight cannot lose to Four of Kind"
 
-### time_it(speed_converter, 100, dist='km', time='min', repetitons=200) #dist can be km/m/ft/yrd, time can be ms/s/m/hr/day, speed given by user is in kmph
-### speed_converter
+### The below given test checks the created deck  using regular for loop is matching  manualy created deck
 
-- This function computes and prints  speed kmph to user selected units of distance.
-- 'dist' is Input unit of distance which can be  in 'km' for kilometer, 'm' for meter, 'ft' for feet, 'yrd' for yard or 'mile' for mile.
-- 'time' is Input unit of time which can be  in 'ms' for milli second , 's' for seconds, 'min' for minutes , 'hr'for hrs, ' day'for day}. 
-- repetitions defines the number of times it needs to be computed and printed.
+def test_function_check_regular_created_deck():
+    card_deck_check=card_deck1_regular()
+    assert all(item in deck for item in card_deck_check) and len(card_deck_check)==len(deck), "Manual deck and regular deck should be same"
+ 
+### The below given test checks the created deck  using regular for map,zip and lamda function is matching  manualy created deck
 
-## Functions used in Test File
+def test_function_check_special_map_zip_lamda_created_deck():
+    card_deck_check=card_deck2_special()
+    print(card_deck_check)
+    assert all(item in deck for item in card_deck_check) and len(card_deck_check)==len(deck), "Manual deck and Special deck should be same"
 
-##def test_readme_exists():
-- This test function check if readme files exists. 
-### def test_readme_contents():
-- This test function check if readme files has more than 500 words.
-### def test_readme_proper_description():
-- This test function check if readme files has described all the functions
-### def test_readme_file_for_formatting():
-- This test function checks if we have enough headers.
-### def test_indentations():
-- This test function checks if assignment file is properly indentation as per PEP8 guidelines
-### def test_function_name_had_cap_letter():
-- This test function checks if assignment file is functions don't have capital letters.
-### def test_time_it_repetition_zero_or_less():
-- Checks time_it function for zero or less repetition without valueerror
-### def test_time_it_print_function():
--Checks Time_function for print_function    
-### def test_time_it_squared_power_list_function():
--Checks Time_function for squared_power_list_function    
-### def test_time_it_polygon_area_function():
--Checks Time_function for polygon_area_function    
-### def test_time_it_temp_converter_function():
--Checks Time_function for temp_converter_function    
-### def test_time_it_speed_converter_function():
--Checks Time_function for speed_converter_function
-### def test_print_function():
-- This test function checks special print functions is in order.
-### def test_squared_power_list_function_output():
-- This test function checks output of squared_power_list function.
-### def test_squared_power_list_function_input_negative_power():
-- This test function checks  squared_power_list function for negative power input.
-### def test_squared_power_list_function_input_start_greater_than_end_():
-- This test function checks  squared_power_list function for end value larger than start value.
-### def test_polygon_area_triangle():
-- This test function checks  polygon_area function for area of triangle.
-### def test_polygon_area_function_square():
-- This test function checks  polygon_area function for area of square.
-### def test_polygon_area_function_pentagon():
-- This test function checks  polygon_area function for area of pentagon.
-### def test_polygon_area_function_area_hexagon():
-- This test function checks  polygon_area function for area of hexagon.
-### def test_polygon_area_function_negative_number_of_sides_input():
-- This test function checks  polygon_area function for negative number of sides.(which is not possible.)
-### def test_polygon_area_function_negative_length_input():
-- This test function checks  polygon_area function for negative length of side.(which is not possible.)
-### def test_polygon_area_function_side_non_standard_input():
-- This test function checks  polygon_area function for number of sides other than 3 to 6.(which the function designed handle)
-### def test_temp_converter_function_Kelvin_others():
-- This test function checks  temp_converter function for Kelvin to Celius and fahrenheit.
-### def test_temp_converter_function_Celius_others():
-- This test function checks  temp_converter function for Celius to kelvin and fahrenheit.
-### def test_temp_converter_function_fahrenheit_others():
-- This test function checks  temp_converter function for fahrenheit to Celius and Kelvin.
-### def test_temp_converter_function_less_than_min():
-- This test function checks  temp_converter function for temperature less than allowable i.e {'f':-459.67,'k':0,'c':-273.15}
-### def test_temp_converter_function_non_standard_base():
-- This test function checks  temp_converter function for temperature base not defined without error or wrong results
-## The following functions check for kmph to mile/hr,meter/hr, feet/hr & yard/hr
-### - def test_speed_converter_function_to_mph():
-### - def test_speed_converter_function_to_meter_per_hour():
-### - def test_speed_converter_function_to_ft_per_hour():
-### - def test_speed_converter_function_to_yrd_per_hour():
-## The following functions check for kmph to mile/milli second,km/milli second,meter/milli second, feet/milli second & yard/milli second
-### - def test_speed_converter_function_to_mile_per_millisecond():
-### - def test_speed_converter_function_to_km_per_millisecond():
-### - def test_speed_converter_function_to_meter_per_millisecond():
-### - def test_speed_converter_function_to_ft_per_millisecond():
-### - def test_speed_converter_function_to_yrd_per_millisecond():
-## The following functions check for kmph to  mile/min,km/min,meter/min, feet/min & yard/min
-### - def test_speed_converter_function_to_mile_per_min():
-### - def test_speed_converter_function_to_km_per_min():
-### - def test_speed_converter_function_to_meter_per_min():
-### - def test_speed_converter_function_to_ft_per_min():
-### - def test_speed_converter_function_to_yrd_per_min():
-## The following functions check for kmph to mile/sec,km/sec,meter/sec, feet/sec & yard/sec
-### - def test_speed_converter_function_to_mile_per_sec():
-### - def test_speed_converter_function_to_km_per_sec():
-### - def test_speed_converter_function_to_meter_per_sec():
-### - def test_speed_converter_function_to_ft_per_sec():
-### - def test_speed_converter_function_to_yrd_per_sec():
------------------------------------------------------------------------------------------------
-### def test_speed_converter_function_negative_speed():
-- The following speed_converter_function for negative speed which is  physically not possible as it is scaler not vector.(Only Velocity can be negative)
-### def test_speed_converter_function_undefined_dist_units():
-- The following speed_converter_function for undefined distance unit without error or wrong results
-### def test_speed_converter_function_undefined_time_units():
-- The following speed_converter_function for undefined time unit without error or wrong results
-### def test_undefined_function():
-- The following check undefined function. which is yet to be developed.
+### The below list of Function check if it is returning right class of win for given hand 
+Royal Flush     =10000
+Straight Flush  = 9000
+Four of kind    = 8000
+Full House      = 7000
+Flush           = 6000
+Straight        = 5000
+Three of kind   = 4000
+Two pair        = 1000    
+High card       = 1000
+
+
+
+def test_function_score_cal_check1():
+    assert score_calculator(p_royal_flush_5)[0]==10000, 'score Should be 10000'
+
+def test_function_score_cal_check2():
+    assert score_calculator(p_royal_flush_4)[0]==10000, 'score Should be 10000'
+
+def test_function_score_cal_check3():
+    assert score_calculator(p_royal_flush_3)[0]==10000, 'score Should be 10000'
+
+def test_function_score_cal_check4():
+    assert score_calculator(p_straight_flush_5)[0]==9000, 'score Should be 9000'
+
+def test_function_score_cal_check5():
+    assert score_calculator(p_straight_flush_4)[0]==9000, 'score Should be 9000'
+
+def test_function_score_cal_check6():
+    assert score_calculator(p_straight_flush_3)[0]==9000, 'score Should be 9000'
+
+def test_function_score_cal_check7():
+    assert score_calculator(p_four_of_kind_5)[0]==8000, 'score Should be 8000'
+
+def test_function_score_cal_check8():
+    assert score_calculator(p_four_of_kind_4)[0]==8000, 'score Should be 8000'
+
+def test_function_score_cal_check9():
+    assert score_calculator(p_full_house_5)[0]==7000, 'score Should be 7000'
+
+def test_function_score_cal_check10():
+    assert score_calculator(p_poker_flush_5)[0]==6000, 'score Should be 6000'
+
+def test_function_score_cal_check11():
+    assert score_calculator(p_poker_flush_4)[0]==6000, 'score Should be 6000'
+
+def test_function_score_cal_check12():
+    assert score_calculator(p_poker_flush_3)[0]==6000, 'score Should be 6000'
+
+def test_function_score_cal_check13():
+    assert score_calculator(p_straight_5)[0]==5000, 'score Should be 5000'
+
+def test_function_score_cal_check14():
+    assert score_calculator(p_straight_4)[0]==5000, 'score Should be 5000'
+
+def test_function_score_cal_check15():
+    assert score_calculator(p_straight_3)[0]==5000, 'score Should be 5000'
+
+def test_function_score_cal_check16():
+    assert score_calculator(p_three_of_kind_5)[0]==4000, 'score Should be 4000'
+
+def test_function_score_cal_check17():
+    assert score_calculator(p_three_of_kind_4)[0]==4000, 'score Should be 4000'
+
+def test_function_score_cal_check18():
+    assert score_calculator(p_three_of_kind_3)[0]==4000, 'score Should be 4000'
+
+def test_function_score_cal_check19():
+    assert score_calculator(p_two_Pair_5)[0]==3000, 'score Should be 3000'
+
+def test_function_score_cal_check20():
+    assert score_calculator(p_two_Pair_4)[0]==3000, 'score Should be 3000'
+
+def test_function_score_cal_check21():
+    assert score_calculator(p_one_Pair_5)[0]==2000, 'score Should be 2000'
+
+def test_function_score_cal_check22():
+    assert score_calculator(p_one_Pair_4)[0]==2000, 'score Should be 2000'
+
+def test_function_score_cal_check23():
+    assert score_calculator(p_one_Pair_3)[0]==2000, 'score Should be 2000'
+
+def test_function_score_cal_check24():
+    assert score_calculator(p_high_card_5)[0]==1000, 'score Should be 1000'
+
+def test_function_score_cal_check25():
+    assert score_calculator(p_high_card_4)[0]==1000, 'score Should be 1000'
+
+def test_function_score_cal_check26():
+    assert score_calculator(p_high_card_3)[0]==1000, 'score Should be 1000'
 
 ***
-> ![My Image](https://github.com/rsriramiyengar/EPAi-session5-rsriramiyengar/blob/master/images/Image01.JPG)
+> ![My Image](https://github.com/rsriramiyengar/EPAi-session6-rsriramiyengar/blob/master/images/Image01.JPG)
 ***
 
 We are using python >3.8.3
