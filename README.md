@@ -12,17 +12,18 @@ Based on above Session we are tasked with develop  code to check special kind of
 The object achieved in  this assignment as follow
 - Function to create deck of cards using regular function
 - Function to create deck of cards using map,zip and lambda function
-- Function find winner of special poker game based on given set of cards
-Where the rank is as follows the given value in front is arbitrary just for convenience
-Royal Flush     =10000 (for set of 3,4 & 5 cards)
-Straight Flush  = 9000 (for set of 3,4 & 5cards)
-Four of kind    = 8000 (for set of 4 & 5 cards)
-Full House      = 7000 (for set of 5 cards)
-Flush           = 6000 (for set of 3,4&5 cards)
-Straight        = 5000 (for set of 3,4&5 cards)
-Three of kind   = 4000 (for set of 3,4&5 cards)
-Two pair        = 1000 (for set of 3,4&5 cards)   
-High card       = 1000 (for set of 3,4&5 cards)
+- Function find winner of special poker game based on given set of cards\
+Where the rank is as follows the given value in front is arbitrary just for convenience\
+Royal Flush     =10000 (for set of 3,4 & 5 cards)\
+Straight Flush  = 9000 (for set of 3,4 & 5cards)\
+Four of kind    = 8000 (for set of 4 & 5 cards)\
+Full House      = 7000 (for set of 5 cards)\
+Flush           = 6000 (for set of 3,4&5 cards)\
+Straight        = 5000 (for set of 3,4&5 cards)\
+Three of kind   = 4000 (for set of 3,4&5 cards)\
+Two pair        = 3000 (for set of 3,4&5 cards)\  
+One pair        = 2000 (for set of 3,4&5 cards)\
+High card       = 1000 (for set of 3,4&5 cards)\
 - to create 35(min 20+) test cases to check our code.
 - Last but not least create this readme file explaning the different functions
  
@@ -49,28 +50,8 @@ The given
     "This Function Calculates the score of given hand for selecting the winner in Poker"
 
 *** Test Function
-### The below given test checks the game_card_winner is selected properly
-def test_function_poker_game():
-    assert game_card_poker_winner(p_royal_flush_5,p_straight_flush_5) =='Player 1', "Test01-High Hand Cannot lose to straigh flush"
-    assert game_card_poker_winner(p_poker_flush_4,p_four_of_kind_4) == 'Player 2', "Test02-Four_of_kind Cannot lose to flush"
-    assert game_card_poker_winner(p_poker_flush_5,p_high_card_5) == 'Player 1', "Test03-Flush Cannot lose to high card"
-    assert game_card_poker_winner(p_three_of_kind_4,p_three_of_kind_4) == 'Its a tie both players share the pot', "Test04-Same set of cards must be tie"
-    assert game_card_poker_winner(p_straight_flush_3,p_high_card_3) == 'Player 1', "Test05-Straigh Flush cannot lose to high card"
-    assert game_card_poker_winner(p_three_of_kind_5,p_two_Pair_5) == 'Player 1', "Test06-Three of Kind cannot lose to Two Pair"
-    assert game_card_poker_winner(p_high_card_5,p_full_house_5) == 'Player 2', "Test07-Full house cannot lose to High Card"
-    assert game_card_poker_winner(p_two_Pair_4,p_four_of_kind_4 ) == 'Player 2', "Test08-Four of kind cannot lose to Two Pair"
-    assert game_card_poker_winner(p_three_of_kind_4, p_high_card_4) == 'Player 1', "Test09-Three of kind cannot lose to High card"
-    assert game_card_poker_winner(p_two_Pair_4 , p_royal_flush_4) == 'Player 2', "Test10-Royal cannot lose to two pair"
-    assert game_card_poker_winner(p_two_Pair_4, p_royal_flush_4) == 'Player 2', "Test11-Royal cannot lose to two pair"
-    assert game_card_poker_winner(p_two_Pair_5, p_one_Pair_5) == 'Player 1', "Test12-Two pair cannot lose to one pair"
-    assert game_card_poker_winner(p_poker_flush_5, p_straight_flush_5) == 'Player 2', "Test13-Straight flush cannot lose to flush"
-    assert game_card_poker_winner(p_royal_flush_3 ,p_straight_3) == 'Player 1', "Test14-Royal flush cannot lose to straigh"
-    assert game_card_poker_winner(p_three_of_kind_4, p_four_of_kind_4) == 'Player 2', "Test15-Four of Kind cannot lose to Three of Kind"
-    assert game_card_poker_winner(p_one_Pair_3,p_high_card_3) == 'Player 1', "Test16-One Pair cannot lose to High Card"
-    assert game_card_poker_winner(p_one_Pair_4,p_two_Pair_4) == 'Player 2', "Test17-Two Pair cannot lose to One Pair"
-    assert game_card_poker_winner(p_straight_flush_5,p_one_Pair_5) == 'Player 1', "Test18-Straigh flush cannot lose to One Pair"
-    assert game_card_poker_winner(p_high_card_3,p_poker_flush_3) == 'Player 2', "Test19-Flush cannot lose to High card"
-    assert game_card_poker_winner(p_four_of_kind_4, p_straight_4) == 'Player 1', "Test20- straight cannot lose to Four of Kind"
+### The below given test checks the game_card_winner is selected properly for user given input
+def test_function_poker_game():   
 
 ### The below given test checks the created deck  using regular for loop is matching  manualy created deck
 
@@ -86,15 +67,16 @@ def test_function_check_special_map_zip_lamda_created_deck():
     assert all(item in deck for item in card_deck_check) and len(card_deck_check)==len(deck), "Manual deck and Special deck should be same"
 
 ### The below list of Function check if it is returning right class of win for given hand 
-Royal Flush     =10000
-Straight Flush  = 9000
-Four of kind    = 8000
-Full House      = 7000
-Flush           = 6000
-Straight        = 5000
-Three of kind   = 4000
-Two pair        = 1000    
-High card       = 1000
+Royal Flush     =10000\
+Straight Flush  = 9000\
+Four of kind    = 8000\
+Full House      = 7000\
+Flush           = 6000\
+Straight        = 5000\
+Three of kind   = 4000\
+Two pair        = 3000\  
+One pair        = 2000\
+High card       = 1000\
 
 
 
