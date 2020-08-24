@@ -53,7 +53,7 @@ def test_readme_file_for_formatting():
 def test_indentations():
     ''' Returns pass if used four spaces for each level of syntactically \
     significant indenting.'''
-    lines = inspect.getsource(session5)
+    lines = inspect.getsource(session6)
     spaces = re.findall('\n +.', lines)
     for space in spaces:
         assert len(space) % 4 == 2, "Your script contains misplaced indentations"
@@ -61,8 +61,31 @@ def test_indentations():
 
 
 def test_function_name_had_cap_letter():
-    functions = inspect.getmembers(session5, inspect.isfunction)
+    functions = inspect.getmembers(session6, inspect.isfunction)
     for function in functions:
         assert len(re.findall('([A-Z])', function[0])) == 0, "You have used Capital letter(s) in your function names"
 
 
+
+# Royal Flush
+# hand1 = [('ace', 'spades'),('king', 'spades'), ('queen', 'spades'), ('jack', 'spades'), ('10', 'spades')]
+# Straight Flush
+# hand1 = [('king', 'spades'), ('queen', 'spades'), ('jack', 'spades'), ('10', 'spades'),('9', 'spades')]
+# Four of Kind
+# hand1 = [('king', 'spades'), ('king', 'clubs'), ('king', 'hearts'), ('king', 'diamonds'),('9', 'spades')]
+# Full House
+# hand1 = [('king', 'spades'), ('king', 'clubs'), ('king', 'hearts'), ('jack', 'diamonds'),('jack', 'spades')]
+# Flush
+# hand1 = [('king', 'hearts'), ( '8', 'hearts'), ('6', 'hearts'), ('4', 'hearts'),('2', 'hearts')]
+# Straight
+# hand1 = [('8', 'hearts'), ('7', 'spades'), ('6', 'diamonds'), ('5', 'clubs'),('4','hearts')]
+# Three of kind
+# hand1 = [('queen', 'spades'), ('queen', 'hearts'), ('queen', 'clubs'), ('7', 'hearts'),('2','club')]
+# Two Pair
+# hand1 = [('jack', 'spades'), ('jack', 'diamonds'), ('9', 'clubs'), ('9', 'diamonds'),('5','spades')]
+# One Pair
+# hand1 = [('king', 'hearts'), ('king', 'clubs'), ('9', 'clubs'), ('8', 'clubs'),('4','hearts')]
+# High Card
+#hand1 = [('ace', 'hearts'), ('queen', 'clubs'), ('6', 'hearts'), ('4', 'spades'), ('2', 'diamonds')]
+#score1 = score_calculator(hand1)
+#print(score1)
